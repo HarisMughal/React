@@ -5,9 +5,10 @@
 // In this we are passing the data from APP to Menu as <Menu dishes={this.state.dishes}/>
 
 import React,{Component} from 'react';
-import {Navbar,NavbarBrand} from 'reactstrap';
+import Header from './HeaderComponent';
 import Menu from './MenuComponent';
 import DishDetail from './DishdetailComponent';
+import Footer from './FooterComponent';
 import {DISHES} from '../shared/dishes';
 
 
@@ -49,18 +50,16 @@ class Main extends Component{
    render() {
     console.log("render called");
 
-
+// Menu and Dish has been changed to be a funtional component ( as such components are only used to render only view
+// and does not require data to be feeded )
     return (
       <div >
-        <Navbar dark color='primary'>
-          <div className = 'container'>
-            <NavbarBrand href="/"> Confusion </NavbarBrand>
-          </div>
-  
-        </Navbar >
+        <Header/>
+        
         <Menu dishes={this.state.dishes}
             onClick = {(dishId) => this.onDishClick(dishId)}  />
         <DishDetail dish = { this.state.dishes.filter( (dish)=> dish.id === this.state.selectedDishId  )[0] } />
+        <Footer/>
       </div>
     );
   }
