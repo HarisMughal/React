@@ -8,10 +8,14 @@ import React,{Component} from 'react';
 import Header from './HeaderComponent';
 import Menu from './MenuComponent';
 import DishDetail from './DishdetailComponent';
+import Contact from './ContactComponent';
 import Footer from './FooterComponent';
 import {DISHES} from '../shared/dishes';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from './HomeComponent';
+import {COMMENTS} from '../shared/comments';
+import {PROMOTIONS} from '../shared/promotion';
+import {LEADERS} from '../shared/leaders';
 
 
 
@@ -32,6 +36,9 @@ class Main extends Component{
     this.state = 
      {
        dishes:DISHES,
+       comments:COMMENTS,
+       promotion:PROMOTIONS,
+       leaders:LEADERS
       //  selectedDishId: null
 
     };
@@ -56,7 +63,14 @@ class Main extends Component{
 // Menu and Dish has been changed to be a funtional component ( as such components are only used to render only view
 // and does not require data to be feeded )
     const HomePage = ()=> { // The only way to pass a component in Route we have to use funtional conponent 
-       return (<Home/>);
+      
+       return (
+        <Home dish= { this.state.dishes.filter( (dish)=> dish.featured  )[0]}
+          promotion = { this.state.promotion.filter( (promotion)=> promotion.featured  )[0]}
+          leader = { this.state.leaders.filter( (leaders)=> leaders.featured  )[0]}
+          // test = { console.log(this.state.leaders.filter( (leaders)=> leaders.featured  ) )}
+        />
+       );
     }
     // below is an another way of sending component as funtional component
     return (
@@ -65,6 +79,7 @@ class Main extends Component{
         <Switch>
           <Route path="/home" component = {HomePage} />
           <Route exact path="/menu" component = { ()=> <Menu dishes={this.state.dishes}/>}/>
+          <Route exact path="/contact" component = {Contact}/>}/>
           <Redirect to = "/home" ></Redirect>
         </Switch>
         {/* <Menu dishes={this.state.dishes}
