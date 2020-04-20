@@ -11,7 +11,7 @@ import DishDetail from './DishdetailComponent';
 import Contact from './ContactComponent';
 import Footer from './FooterComponent';
 import {DISHES} from '../shared/dishes';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, Router } from 'react-router-dom';
 import Home from './HomeComponent';
 import {COMMENTS} from '../shared/comments';
 import {PROMOTIONS} from '../shared/promotion';
@@ -71,7 +71,18 @@ class Main extends Component{
           // test = { console.log(this.state.leaders.filter( (leaders)=> leaders.featured  ) )}
         />
        );
-    }
+    };
+
+    const RenderDishDetail = ({match})=>{
+      // console.log("DisDetail");
+        return(
+          <DishDetail dish = {this.state.dishes.filter((dish)=> dish.id === parseInt(match.params.dishId,10 ))[0]}
+            comments = {this.state.comments.filter((comment)=> comment.dishId === parseInt(match.params.dishId,10 ))}
+            // test = {console.log(parseInt(match.params.dishId))} 
+            // test = { console.log(this.state.comments.filter((comment)=> comment.dishId === parseInt(match.params.dishId,10) ) ) }
+          />
+        );
+    };
     // below is an another way of sending component as funtional component
     return (
       <div >
@@ -79,7 +90,9 @@ class Main extends Component{
         <Switch>
           <Route path="/home" component = {HomePage} />
           <Route exact path="/menu" component = { ()=> <Menu dishes={this.state.dishes}/>}/>
-          <Route exact path="/contact" component = {Contact}/>}/>
+          <Route path = '/menu/:dishId' component={RenderDishDetail} />
+          <Route exact path="/contact" component = {Contact}/>/>
+          
           <Redirect to = "/home" ></Redirect>
         </Switch>
         {/* <Menu dishes={this.state.dishes}
