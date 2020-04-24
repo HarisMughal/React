@@ -8,9 +8,9 @@ import React,{Component} from 'react';
 import Main from './components/MainComponent';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-
-
-
+import {Provider } from 'react-redux';
+import {ConfigureStore} from './redux/configureStore'
+const store = ConfigureStore();
 class App extends Component{
 // just like as ANdroid the react also flows a lifecycle on openning (mount) and closing (unmount)
 
@@ -39,9 +39,11 @@ class App extends Component{
 
     return (
       <div>
-        <BrowserRouter>
-          <Main />
-        </BrowserRouter>
+        <Provider store = {store}>
+          <BrowserRouter>
+            <Main />
+          </BrowserRouter>
+        </Provider>
       </div>
     );
   }
