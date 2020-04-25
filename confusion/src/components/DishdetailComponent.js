@@ -27,28 +27,27 @@ function  RenderDish({dish}){
     
 }
 
-function RenderComments({comments}){
+function RenderComments({comments, addComment,dishId}){
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const commentList = comments.map( (comment)=>{
-        if(comment != null){
-            return (
-                
-                <div key = {comment.id}>                        
-                    <ul className="list-unstyled">
-                        <li>{comment.comment}</li>
+        return (
+            
+            <div >                        
+                <ul className="list-unstyled">
+                    {comments.map( (comment) => {
+                        return(
+                            <li key={comment.id}>
+                                <p>{comment.comment}</p>
+                                <p>{"-- "+comment.author+", "+ (new Date(comment.date)).toLocaleDateString("en-US",options)}</p>
+                            </li>
+                        );
+                    })}
 
-                    </ul>
-                    <ul className="list-unstyled">
-                        <li> {"-- "+comment.author+", "+ (new Date(comment.date)).toLocaleDateString("en-US",options)} </li>
-                    </ul>
-                </div>
-            );
-        }
-        else{
-            return ( <div></div>);
-        }
-    } );
-    return commentList;
+                </ul>
+                <CommentForm dishId={dishId} addComment={addComment} />
+            </div>
+        );
+        
+    
 
 }
 
@@ -71,8 +70,10 @@ const DishDetail = (props)=>{
                         <RenderDish dish = {props.dish} />
                         <div className="col-md-5 mt-1 mb-1">
                             <h4> Comments</h4>
-                            <RenderComments comments = {props.comments} />
-                            <CommentForm />
+                            <RenderComments comments = {props.comments} 
+                            addComment = {props.addComment}
+                            dishId={props.dish.id}
+                            />
                         </div>
                     </div>
                 </div>
@@ -104,11 +105,14 @@ class CommentForm extends Component{
     }
     
     onSubmitComment(values){
-        alert(JSON.stringify(values));
+        // alert(JSON.stringify(values));
+        this.props.addComment(this.props.dishId,values.ratting,values.name,values.comment);
     }
 
     render(){
+        
         return(
+            
             <React.Fragment>
                 <Button outline color="dark" onClick= {this.onModalToggle}>
                     <span className="fa fa-write fa-md"></span>
